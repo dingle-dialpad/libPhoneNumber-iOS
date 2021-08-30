@@ -14,7 +14,6 @@
 #import "NBPhoneNumberDesc.h"
 #import "NBShortNumberUtil.h"
 
-#import "NBGeneratedShortNumberMetadata.h"
 #import "NBShortNumberMetadataHelper.h"
 #import "NBShortNumberTestHelper.h"
 
@@ -33,7 +32,11 @@ static size_t kPhoneNumberMetaDataForTestingExpandedLength = 33021;
 - (void)setUp {
   [super setUp];
   if (self != nil) {
+  #if SWIFT_PACKAGE
+    NSBundle *bundle = SWIFTPM_MODULE_BUNDLE;
+  #elif
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+  #endif
 
     NSString *metadataPath = [bundle pathForResource:@"libPhoneNumberMetadataForTesting"
                                               ofType:nil];

@@ -9,9 +9,9 @@
 #import "NBPhoneNumberUtil+ShortNumberTest.h"
 
 #import "NBMetadataHelper.h"
-#import "NBPhoneMetadata.h"
+#import "NBPhoneMetaData.h"
 #import "NBPhoneNumberDesc.h"
-#import "NBPhoneNumberUtil+Category.h"
+//#import "NBPhoneNumberUtil+Category.h"
 
 #if SHORT_NUMBER_SUPPORT
 

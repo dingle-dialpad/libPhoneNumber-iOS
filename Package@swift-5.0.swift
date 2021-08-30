@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 import PackageDescription
 
@@ -14,13 +14,22 @@ let package = Package(
         .library(
             name: "libPhoneNumber",
             targets: ["libPhoneNumber"]
+        ),
+        .library(
+          name: "libPhoneNumberShortNumber",
+          targets: ["libPhoneNumberShortNumber"]
         )
     ],
     targets: [
         .target(
             name: "libPhoneNumber",
             path: "libPhoneNumber",
-            publicHeadersPath: ".",
+            exclude: [
+              "Info.plist",
+              "GeneratePhoneNumberHeader.sh"
+            ],
+            resources: [.process("NBPhoneNumberMetadata.plist")],
+            publicHeadersPath: "Public",
             cSettings: [
                 .headerSearchPath("Internal")
             ],
@@ -28,18 +37,32 @@ let package = Package(
                 .linkedFramework("CoreTelephony"),
             ]
         ),
+        .target(
+          name: "libPhoneNumberShortNumber",
+          dependencies: ["libPhoneNumber"],
+          path: "libPhoneNumberShortNumber",
+          exclude: ["Info.plist", "README.md"],
+          publicHeadersPath: "Public",
+          cSettings: [
+              .headerSearchPath("../libPhoneNumber/Internal")
+          ]
+        ),
+
         .testTarget(
             name: "libPhoneNumberTests",
-            dependencies: ["libPhoneNumber"],
+            dependencies: ["libPhoneNumber", "libPhoneNumberShortNumber"],
             path: "libPhoneNumberTests",
+            exclude: ["Info.plist"],
             sources: [
                 "NBAsYouTypeFormatterTest.m",
                 "NBPhoneNumberParsingPerfTest.m",
-                "NBPhoneNumberUtil+ShortNumberTestHelper.h",
-                "NBPhoneNumberUtil+ShortNumberTestHelper.m",
                 "NBPhoneNumberUtilTest.m",
+                "NBShortNumberTestHelper.m",
+                "NBPhoneNumberUtil+ShortNumberTest.h",
+                "NBPhoneNumberUtil+ShortNumberTest.m",
                 "NBShortNumberInfoTest.m"
-            ]
-        )
+            ],
+            resources: [.process("Resources/libPhoneNumberMetadataForTesting")]
+        ),
     ]
 )

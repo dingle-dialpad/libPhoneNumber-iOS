@@ -22,8 +22,12 @@ static size_t kPhoneNumberMetaDataForTestingExpandedLength = 33021;
 
 - (void)setUp {
   [super setUp];
-
+#if SWIFT_PACKAGE
+  NSBundle *bundle = SWIFTPM_MODULE_BUNDLE;
+#elif
   NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+#endif
+
   NSString *path = [bundle pathForResource:@"libPhoneNumberMetadataForTesting" ofType:nil];
   NSData *data = [NSData dataWithContentsOfFile:path];
   _helper =

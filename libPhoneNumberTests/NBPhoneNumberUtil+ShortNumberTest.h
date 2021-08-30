@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NBPhoneNumberUtil+ShortNumber.h"
+#import "NBShortNumberUtil.h"
 #import "NBPhoneNumberUtil.h"
 
 #if SHORT_NUMBER_SUPPORT
